@@ -36,6 +36,7 @@ def publish_goods():
             return jsonify({'code': 400, 'msg': '请求数据为空', 'data': None})
         
         name = data.get('name', '')
+        category = data.get('category', '')
         img_base64_list = data.get('imgBase64List', [])
         desc = data.get('desc', '')
         original_price = data.get('originalPrice', 0)
@@ -44,6 +45,9 @@ def publish_goods():
         
         if not name:
             return jsonify({'code': 400, 'msg': '请填写物品名称', 'data': None})
+        
+        if not category:
+            return jsonify({'code': 400, 'msg': '请选择商品品类', 'data': None})
         
         if not img_base64_list or len(img_base64_list) < 3:
             return jsonify({'code': 400, 'msg': '请上传3张商品图片', 'data': None})
@@ -60,6 +64,7 @@ def publish_goods():
         new_goods = {
             'id': datetime.now().strftime('%Y%m%d%H%M%S%f'),
             'name': name,
+            'category': category,
             'imgBase64List': img_base64_list,
             'desc': desc,
             'originalPrice': original_price,
@@ -96,6 +101,7 @@ def update_goods():
         
         goods_id = data.get('id', '')
         name = data.get('name', '')
+        category = data.get('category', '')
         img_base64_list = data.get('imgBase64List', [])
         desc = data.get('desc', '')
         original_price = data.get('originalPrice', 0)
@@ -127,6 +133,7 @@ def update_goods():
                 goods_list[i] = {
                     'id': goods_id,
                     'name': name,
+                    'category': category,
                     'imgBase64List': img_base64_list,
                     'desc': desc,
                     'originalPrice': original_price,

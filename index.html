@@ -161,6 +161,101 @@
             font-size: 13px;
             line-height: 1.5;
             min-height: 40px;
+            cursor: pointer;
+        }
+
+        .goods-desc:hover {
+            color: #4a90e2;
+            text-decoration: underline;
+        }
+
+        .goods-detail-content {
+            max-width: 600px;
+        }
+
+        .goods-detail-section {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .goods-detail-section:last-child {
+            border-bottom: none;
+        }
+
+        .goods-detail-name {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .goods-detail-category {
+            font-size: 14px;
+            color: #999;
+            background: #f5f5f5;
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+        }
+
+        .goods-detail-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .goods-detail-images {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .detail-image {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .goods-detail-desc {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .goods-detail-price {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .detail-sale-price {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ff6b35;
+        }
+
+        .detail-original-price {
+            font-size: 14px;
+            color: #999;
+            text-decoration: line-through;
+        }
+
+        .goods-detail-contact {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .detail-contact-text {
+            font-size: 16px;
+            color: #333;
+            flex: 1;
         }
 
         .goods-price {
@@ -442,6 +537,13 @@
             gap: 10px;
         }
 
+        .ai-hint {
+            font-size: 12px;
+            color: #999;
+            margin-top: 5px;
+            line-height: 1.4;
+        }
+
         .desc-input {
             flex: 1;
             height: 80px;
@@ -486,6 +588,47 @@
         .ai-desc-btn:disabled {
             background: #ccc;
             cursor: not-allowed;
+        }
+
+        .ai-price-btn {
+            width: 90px;
+            height: 30px;
+            background: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0 10px;
+            margin-left: 10px;
+        }
+
+        .ai-price-btn:hover {
+            background: #45a049;
+        }
+
+        .ai-price-btn:active {
+            background: #3d8b40;
+        }
+
+        .ai-price-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .price-input-with-btn {
+            display: flex;
+            align-items: center;
+            flex: 1;
+        }
+
+        .price-input-with-btn input {
+            flex: 1;
         }
 
         .price-input-container {
@@ -836,6 +979,23 @@
                 </div>
 
                 <div class="modal-section">
+                    <div class="section-title">商品品类（必填）</div>
+                    <select class="contact-input" id="categoryInput" onchange="validateForm()">
+                        <option value="">请选择商品品类</option>
+                        <option value="shoes">鞋子</option>
+                        <option value="clothing">服装</option>
+                        <option value="jewelry">首饰</option>
+                        <option value="electronics">电子产品</option>
+                        <option value="sports">运动装备</option>
+                        <option value="daily">生活用品</option>
+                        <option value="books">书籍</option>
+                        <option value="furniture">家具</option>
+                        <option value="other">其他</option>
+                    </select>
+                    <div class="error-msg" id="categoryError">请选择商品品类</div>
+                </div>
+
+                <div class="modal-section">
                     <div class="section-title">物品名称（必填）</div>
                     <input type="text" class="contact-input" id="nameInput" placeholder="输入物品名称，如：iPhone 15、自行车、书籍等" oninput="validateForm()">
                     <div class="error-msg" id="nameError">请填写物品名称</div>
@@ -848,6 +1008,7 @@
                         <button class="ai-desc-btn" id="aiDescBtn" onclick="analyzeGoods()">AI识别商品信息</button>
                         <span class="loading-spinner" id="aiDescLoading" style="display: none;"></span>
                     </div>
+                    <div class="ai-hint">💡 提示：ai识别信息不一定准确，请根据实际进行部分修改！详细的商品描述有助于快速成交！</div>
                 </div>
 
                 <div class="modal-section">
@@ -859,7 +1020,11 @@
                         </div>
                         <div class="price-input-wrapper">
                             <label>最终售价（元）</label>
-                            <input type="text" class="price-input" id="salePriceInput" placeholder="建议售价：原价的50%-80%（必填）" oninput="validatePriceInput(this)">
+                            <div class="price-input-with-btn">
+                                <input type="text" class="price-input" id="salePriceInput" placeholder="建议售价：原价的50%-80%（必填）" oninput="validatePriceInput(this)">
+                                <button class="ai-price-btn" id="aiPriceBtn" onclick="generateSuggestedPrice()">AI智能定价</button>
+                                <span class="loading-spinner" id="aiPriceLoading" style="display: none;"></span>
+                            </div>
                         </div>
                     </div>
                     <div class="error-msg" id="priceError">最终售价不可高于原价</div>
@@ -874,6 +1039,43 @@
             <div class="modal-footer">
                 <button class="confirm-btn" id="confirmBtn" onclick="confirmPublish()">确认发布</button>
                 <button class="cancel-btn" onclick="closeModal()">取消发布</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="goodsDetailModal">
+        <div class="modal-content goods-detail-content">
+            <div class="modal-header">商品详情</div>
+            <div class="modal-body">
+                <div class="goods-detail-section">
+                    <div class="goods-detail-name" id="detailName"></div>
+                    <div class="goods-detail-category" id="detailCategory"></div>
+                </div>
+                <div class="goods-detail-section">
+                    <div class="goods-detail-title">商品图片</div>
+                    <div class="goods-detail-images" id="detailImages"></div>
+                </div>
+                <div class="goods-detail-section">
+                    <div class="goods-detail-title">商品描述</div>
+                    <div class="goods-detail-desc" id="detailDesc"></div>
+                </div>
+                <div class="goods-detail-section">
+                    <div class="goods-detail-title">价格信息</div>
+                    <div class="goods-detail-price">
+                        <span class="detail-sale-price">¥<span id="detailSalePrice"></span></span>
+                        <span class="detail-original-price">原价：¥<span id="detailOriginalPrice"></span></span>
+                    </div>
+                </div>
+                <div class="goods-detail-section">
+                    <div class="goods-detail-title">联系方式</div>
+                    <div class="goods-detail-contact">
+                        <span class="detail-contact-text" id="detailContact"></span>
+                        <button class="copy-btn" onclick="copyContact(document.getElementById('detailContact').textContent)">复制</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="cancel-btn" onclick="closeGoodsDetailModal()" style="flex: 1;">关闭</button>
             </div>
         </div>
     </div>
@@ -970,7 +1172,7 @@
                         ${goods.imgBase64List[1] ? `<img class="goods-image" src="${goods.imgBase64List[1]}" alt="商品图片">` : ''}
                         ${goods.imgBase64List[2] ? `<img class="goods-image" src="${goods.imgBase64List[2]}" alt="商品图片">` : ''}
                     </div>
-                    <div class="goods-desc">${truncateText(goods.desc, 60)}</div>
+                    <div class="goods-desc" onclick="viewGoodsDetail(${index})">${truncateText(goods.desc, 60)}</div>
                     <div class="goods-price">
                         <span class="sale-price">¥${goods.salePrice}</span>
                         <span class="original-price">原价：¥${goods.originalPrice}</span>
@@ -1058,6 +1260,30 @@
             document.getElementById('imageModal').classList.remove('active');
         }
 
+        async function viewGoodsDetail(index) {
+            const goodsList = await loadGoods();
+            const goods = goodsList[index];
+            
+            document.getElementById('detailName').textContent = goods.name || '未命名';
+            document.getElementById('detailCategory').textContent = goods.category || '其他';
+            document.getElementById('detailDesc').textContent = goods.desc || '暂无描述';
+            document.getElementById('detailSalePrice').textContent = goods.salePrice || '0';
+            document.getElementById('detailOriginalPrice').textContent = goods.originalPrice || '0';
+            document.getElementById('detailContact').textContent = goods.contact || '暂无';
+            
+            const imagesContainer = document.getElementById('detailImages');
+            imagesContainer.innerHTML = goods.imgBase64List
+                .filter(img => img)
+                .map(img => `<img class="detail-image" src="${img}" alt="商品图片">`)
+                .join('');
+            
+            document.getElementById('goodsDetailModal').classList.add('active');
+        }
+
+        function closeGoodsDetailModal() {
+            document.getElementById('goodsDetailModal').classList.remove('active');
+        }
+
         function selectImage(index) {
             document.getElementById(`imageInput${index}`).click();
         }
@@ -1132,17 +1358,20 @@
 
         function validateForm() {
             const hasAllImages = imageBase64List.every(img => img !== '');
+            const category = document.getElementById('categoryInput').value;
             const originalPrice = document.getElementById('originalPriceInput').value;
             const salePrice = document.getElementById('salePriceInput').value;
             const contact = document.getElementById('contactInput').value;
 
             const imageError = document.getElementById('imageError');
+            const categoryError = document.getElementById('categoryError');
             const priceError = document.getElementById('priceError');
             const contactError = document.getElementById('contactError');
             const confirmBtn = document.getElementById('confirmBtn');
             const aiPriceBtn = document.getElementById('aiPriceBtn');
 
             imageError.classList.remove('show');
+            categoryError.classList.remove('show');
             priceError.classList.remove('show');
             contactError.classList.remove('show');
 
@@ -1150,6 +1379,11 @@
 
             if (!hasAllImages) {
                 imageError.classList.add('show');
+                isValid = false;
+            }
+
+            if (!category) {
+                categoryError.classList.add('show');
                 isValid = false;
             }
 
@@ -1173,7 +1407,13 @@
 
         async function analyzeGoods() {
             const name = document.getElementById('nameInput').value;
+            const category = document.getElementById('categoryInput').value;
             const hasAllImages = imageBase64List.every(img => img !== '');
+            
+            if (!category) {
+                alert('请先选择商品品类');
+                return;
+            }
             
             if (!name) {
                 alert('请先填写物品名称');
@@ -1198,7 +1438,8 @@
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        productName: name
+                        productName: name,
+                        category: category
                     })
                 });
 
@@ -1226,21 +1467,24 @@
                         }
                     }
                 } else {
-                    analysis += `⚠️ 未在数据库中找到该商品信息\n`;
+                    analysis += `⚠️ 未找到该商品信息\n`;
                 }
+
+                const categoryPrompts = {
+                    'shoes': `【必填】\n• 成色（如：全新/九成新/八成新）\n• 鞋码\n• 磨损情况（鞋底/鞋面）\n• 购买时间\n\n【选填】\n• 原盒/原鞋带\n• 是否有异味`,
+                    'clothing': `【必填】\n• 成色（如：全新/九成新/八成新）\n• 尺码（S/M/L/XL等）\n• 瑕损情况（污渍/破损/起球等）\n• 购买时间\n\n【选填】\n• 品牌\n• 适合季节`,
+                    'jewelry': `【必填】\n• 成色（如：全新/九成新/八成新）\n• 材质（如：纯银/18K金/钻石）\n• 瑕损情况（划痕/氧化/变形）\n• 购买时间\n\n【选填】\n• 原盒/证书\n• 尺寸`,
+                    'electronics': `【必填】\n• 成色（如：全新/九成新/八成新）\n• 功能是否完好\n• 有无瑕疵或损坏\n• 使用时长\n\n【选填】\n• 购买渠道和时间\n• 配件是否齐全\n• 保修情况`,
+                    'sports': `【必填】\n• 成色（如：全新/九成新/八成新）\n• 功能是否完好\n• 使用次数/时长\n• 磨损情况\n\n【选填】\n• 适用场景\n• 保养情况`,
+                    'daily': `【必填】\n• 成色（如：全新/九成新/八成新）\n• 主要功能是否完好\n• 使用次数/时长\n• 清洁程度\n\n【选填】\n• 是否有异味\n• 包装情况`,
+                    'books': `【必填】\n• 成色（如：全新/九成新/八成新）\n• 有无笔记/划线\n• 瑕损情况（污渍/破损/缺页）\n• 购买时间\n\n【选填】\n• 版本信息\n• 是否有原包装`,
+                    'furniture': `【必填】\n• 成色（如：全新/九成新/八成新）\n• 尺寸规格\n• 磨损情况\n• 购买时间\n\n【选填】\n• 是否可拆卸\n• 搬运情况`,
+                    'other': `【必填】\n• 成色（如：全新/九成新/八成新）\n• 功能是否完好\n• 有无瑕疵或损坏\n• 使用时长\n\n【选填】\n• 购买渠道和时间\n• 配件是否齐全\n• 保修情况\n• 其他需要说明的情况`
+                };
 
                 analysis += `\n📝 请根据以上信息补充商品详情：\n`;
                 analysis += `━━━━━━━━━━━━━━━━━━━━━━\n`;
-                analysis += `【必填】\n`;
-                analysis += `• 成色（如：全新/九成新/八成新）\n`;
-                analysis += `• 功能是否完好\n`;
-                analysis += `• 有无瑕疵或损坏\n`;
-                analysis += `• 使用时长\n`;
-                analysis += `\n【选填】\n`;
-                analysis += `• 购买渠道和时间\n`;
-                analysis += `• 配件是否齐全\n`;
-                analysis += `• 保修情况\n`;
-                analysis += `• 其他需要说明的情况\n`;
+                analysis += categoryPrompts[category] || categoryPrompts['other'];
                 analysis += `━━━━━━━━━━━━━━━━━━━━━━\n`;
                 analysis += `\n💡 提示：详细的商品描述有助于快速成交！`;
 
@@ -1310,8 +1554,74 @@
             }
         }
 
+        async function generateSuggestedPrice() {
+            const originalPrice = document.getElementById('originalPriceInput').value;
+            const desc = document.getElementById('descInput').value;
+
+            if (!originalPrice || isNaN(parseFloat(originalPrice))) {
+                alert('请先填写商品原价');
+                return;
+            }
+
+            if (!desc || desc.trim() === '') {
+                alert('请先填写商品描述，包括：\n• 成色\n• 功能是否完好\n• 瑕疵\n• 使用时长');
+                return;
+            }
+
+            const hasRequiredInfo = checkRequiredInfo(desc);
+            if (!hasRequiredInfo) {
+                alert('商品描述信息不完整，请确保填写以下必填信息：\n• 成色\n• 功能是否完好\n• 瑕疵\n• 使用时长');
+                return;
+            }
+
+            const btn = document.getElementById('aiPriceBtn');
+            const loadingSpinner = document.getElementById('aiPriceLoading');
+            btn.disabled = true;
+            btn.textContent = '定价中...';
+            if (loadingSpinner) loadingSpinner.style.display = 'inline-block';
+
+            try {
+                const response = await fetch('http://localhost:3000/api/product/price', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        originalPrice: parseFloat(originalPrice),
+                        desc: desc
+                    })
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    document.getElementById('salePriceInput').value = result.data;
+                    alert(`AI建议售价：${result.data}元`);
+                } else {
+                    throw new Error(result.msg || '定价失败');
+                }
+            } catch (error) {
+                console.error('AI定价失败:', error);
+                alert('AI定价失败，请重试');
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'AI智能定价';
+                if (loadingSpinner) loadingSpinner.style.display = 'none';
+            }
+        }
+
+        function checkRequiredInfo(desc) {
+            const lowerDesc = desc.toLowerCase();
+            const hasCondition = /成色|全新|九成新|八成新|七成新|六成新/.test(desc);
+            const hasFunction = /功能|完好|正常|可用/.test(desc);
+            const hasDefect = /瑕疵|损坏|破损|划痕|污渍|磨损|无瑕疵|无损坏|完好/.test(desc);
+            const hasUsage = /使用|时长|时间|多久|年|月/.test(desc);
+
+            return hasCondition && hasFunction && hasDefect && hasUsage;
+        }
+
         async function confirmPublish() {
             const name = document.getElementById('nameInput').value;
+            const category = document.getElementById('categoryInput').value;
             const desc = document.getElementById('descInput').value;
             const originalPrice = document.getElementById('originalPriceInput').value;
             const salePrice = document.getElementById('salePriceInput').value;
@@ -1319,6 +1629,7 @@
 
             const goodsData = {
                 name: name,
+                category: category,
                 imgBase64List: [...imageBase64List],
                 desc: desc,
                 originalPrice: parseFloat(originalPrice),
