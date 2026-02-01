@@ -1,0 +1,21 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "index.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/index.js"
+    }
+  ],
+  "env": {
+    "BAIDU_API_KEY": "@baidu_api_key",
+    "BAIDU_SECRET_KEY": "@baidu_secret_key",
+    "DOUBAN_API_KEY": "@douban_api_key",
+    "DOUBAN_API_URL": "@douban_api_url"
+  }
+}
